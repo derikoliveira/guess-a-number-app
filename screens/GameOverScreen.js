@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, Image, StyleSheet, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, View} from 'react-native';
 
 import BodyText from '../components/BodyText';
+import colors from '../constants/colors';
 import TitleText from '../components/TitleText';
 
 const GameOverScreen = props => {
@@ -13,8 +14,14 @@ const GameOverScreen = props => {
         <Image source={require('../assets/images/success.png')}
                style={styles.image} resizeMode='cover'/>
       </View>
-      <BodyText>Number of rounds: {roundsNumber}</BodyText>
-      <BodyText>Number was: {userNumber}</BodyText>
+      <View style={styles.resultContainer}>
+        <BodyText style={styles.resultText}>
+          Your phone needed{' '}
+          <Text style={styles.highlight}>{roundsNumber}</Text>{' '}
+          rounds to guess the number{' '}
+          <Text style={styles.highlight}>{userNumber}</Text>
+        </BodyText>
+      </View>
       <Button title='New Game' onPress={onRestartGame}/>
     </View>
   );
@@ -37,6 +44,18 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  resultContainer: {
+    width: '80%',
+    marginVertical: 20,
+  },
+  resultText:{
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  highlight: {
+    color: colors.primary,
+    fontFamily: 'open-sans-bold',
   }
 });
 
