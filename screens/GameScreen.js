@@ -6,6 +6,7 @@ import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import TitleText from '../components/TitleText';
 import MainButton from '../components/MainButton';
+import BodyText from '../components/BodyText';
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -16,6 +17,13 @@ const generateRandomBetween = (min, max, exclude) => {
   }
   return randomNumber;
 };
+
+const renderListItem = (value, NumOfRound) => (
+  <View key={value} style={styles.listItem}>
+    <BodyText>#{NumOfRound}</BodyText>
+    <BodyText>{value}</BodyText>
+  </View>
+);
 
 const GameScreen = props => {
   const {userChoice, onGameOver} = props;
@@ -46,7 +54,7 @@ const GameScreen = props => {
     if (direction === 'lower') {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
     const nextNumber = generateRandomBetween(currentLow.current, currentHigh.current, currentGuess);
     setCurrentGuess(nextNumber);
@@ -66,13 +74,13 @@ const GameScreen = props => {
           <Ionicons name='md-add' size={24} color='white'/>
         </MainButton>
       </Card>
-      <ScrollView>
-        {pastGuesses.map(guess => (
-          <View key={guess}>
-            <Text>{guess}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.list}>
+        <ScrollView>
+          {pastGuesses.map(
+            (guess, index) => renderListItem(guess, pastGuesses.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -89,7 +97,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 300,
     maxWidth: '80%',
-  }
+  },
+  list: {
+    flex: 1,
+    width: '80%',
+  },
+  listItem: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 export default GameScreen;
